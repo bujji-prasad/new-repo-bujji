@@ -22,7 +22,7 @@ const addTask = async (req,res) => {
         console.log("Error while creating the Task:", error);
         return res.status(500).json({
             message: "Error while creating the Task",
-            errorMsg: error.message || error,
+            errorMsg: error._message || error,
         });
     }
 }

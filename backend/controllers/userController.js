@@ -3,11 +3,21 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 //verify user middleware
-const verifyUser = (req,res,next) => {
-    const token = req.headers['authorization']
-    console.log(token)
-    next()
-}
+const verifyToken = (req, res, next) => {
+    const token = req.header("Authorization").replace("Bearer ", "");
+  
+    if (!token) {
+      return res.status(401).json({ message: "Access denied" });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, "PILLAGMOLLABUJJI");  // This checks if token is expired as well
+      req.user = decoded;
+      next();
+    } catch (err) {
+      res.status(400).json({ message: "Token expired or invalid" });
+    }
+  };
 
 const createUser = async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
@@ -51,7 +61,7 @@ const loginUser = async (req,res) => {
                 res.status(400).json({message : "Password doenst match"})
             }
             else{
-                const jwtToken = jwt.sign({id : userExist._id} , "PILLAGMOLLABUJJI" , { expiresIn: '1h' })
+                const jwtToken = jwt.sign({id : userExist._id} , "PILLAGMOLLABUJJI" , { expiresIn: 30 })
                 res.status(200).json({
                     token : jwtToken,
                     message : "User Login successfully",
@@ -69,6 +79,20 @@ const loginUser = async (req,res) => {
     }
 }
 const getUserDetails = async (req, res) => {
+    try {
+      const users = await User.find();
+      return res.status(200).json({
+        message : "successfully got singup users " , 
+        users : users
+      })
+    } catch (err) {
+      console.error('Error retrieving user details:', err);
+      return res.status(500).json({ message: 'Error retrieving user details', details: err.message });
+    }
+  };
+
+
+  const getLoginUserDetails = async (req, res) => {
     const token = req.headers['authorization'];
   
     if (!token) {
@@ -104,11 +128,10 @@ const getUserDetails = async (req, res) => {
       return res.status(500).json({ message: 'Error retrieving user details', details: err.message });
     }
   };
-
-
+  
 
 
   
 
 
-module.exports = { createUser , loginUser , getUserDetails , verifyUser};
+module.exports = { createUser , loginUser , getUserDetails , verifyToken,getLoginUserDetails};

@@ -8,7 +8,7 @@ const taskSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        maxlength: 100  
+        maxlength: 100,
     },
     assignedTo: {
         type: String,
@@ -27,7 +27,6 @@ const taskSchema = new mongoose.Schema({
         type: String,
         enum: ['Pending', 'In-progress', 'Completed'],  
         required: true, 
-        default: 'Pending' 
     },
     markasRead: {
         type: Boolean,
