@@ -1,0 +1,41 @@
+.modal1 {
+    position: fixed;  /* Position it relative to the viewport */
+    top: 0; /* Align top edge to top of the viewport */
+    left: 0; /* Align left edge to the left of the viewport */
+    width: 100vw; /* Take full width */
+    height: 100vh; /* Take full height */
+    display: flex;
+    justify-content: center; /* Horizontally center the modal */
+    align-items: center; /* Vertically center the modal */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Make sure the modal appears above other elements */
+  }
+  
+  .modal-content1 {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px; /* Set the max width */
+    width: 100%; /* Make sure the modal content is responsive */
+    text-align: center;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:nth-child(1) {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  button:nth-child(2) {
+    background-color: #f44336;
+    color: white;
+  }
+  
